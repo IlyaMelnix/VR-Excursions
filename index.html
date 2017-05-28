@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>360&deg; Интерактивное видео-тест</title>
+    <meta name="description" content="360&deg; Image Gallery - A-Frame">
+
+    <!-- Нужно, чтобы воспроизвести видео на IOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes"> 
+
+    <!-- Подключение A-Frame -->
+    <script src="https://aframe.io/releases/0.4.0/aframe.min.js"></script>
+    <script src="https://npmcdn.com/aframe-animation-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-event-set-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-layout-component@3.0.1"></script>
+    <script src="https://npmcdn.com/aframe-template-component@3.1.1"></script>
+
+    <!-- Подключение JS -->
+    <script src="components/set-video.js"></script>
+    <script src="components/play-video-mobile.js"></script>
+
+    <!-- Подключение CSS -->
+    <link rel="stylesheet" type="text/css" href="components/style.css">
+  </head>
+  <body>
+
+    <button id="play-button">Play</button>
+
+    <a-scene>
+      <a-assets>
+
+        
+
+
+        <!-- 
+        <video id="myasnikova" src="video/myasnikova.mp4"
+               autoplay loop crossorigin playsinline ></video>
+        <video id="myasnikova" src="video/myasnikova.mp4"
+               autoplay loop crossorigin></video>
+         -->       
+        <video id="mulavina" src="https://ucarecdn.com/2a85393a-1207-4e08-bc4d-2e1bbb099d52/"
+               autoplay loop crossorigin playsinline ></video>
+        <video id="myasnikova" src="https://ucarecdn.com/480ee4b4-ed1b-4fca-a80c-b9377162c879/"
+               autoplay loop crossorigin playsinline ></video>
+
+        <img id="myasnikova-img" crossorigin="anonymous" src="img/myasnikova-img.jpg">
+        <img id="mulavina-img" crossorigin="anonymous" src="img/mulavina-img.jpg">
+
+        <audio id="click-sound" crossorigin="anonymous" src="https://cdn.aframe.io/360-image-gallery-boilerplate/audio/click.ogg"></audio>
+
+        <!-- Объявление сущности "ссылка на панорамное видео" -->
+        <script id="link" type="text/html">
+          <a-entity class="link"
+            geometry="primitive: plane; height: 1; width: 1"
+            material="shader: flat; src: ${thumb}"
+            event-set__1="_event: mousedown; scale: 1 1 1"
+            event-set__2="_event: mouseup; scale: 1.2 1.2 1"
+            event-set__3="_event: mouseenter; scale: 1.2 1.2 1"
+            event-set__4="_event: mouseleave; scale: 1 1 1"
+            set-video="on: click; target: #video-360; src: ${src}"
+            sound="on: click; src: #click-sound"></a-entity>
+        </script>
+
+        <!-- 
+        
+        Используется тегирование информации с пмощью фреймфорка A-Frame, включаюзего библиотеку Node.JS, которая содержит "код" ассоциированный со специальными тегами фреймворка. Теги бывают предопределённами и пользовательскими. Пользовательские теги позволяют описать следующий функционал:
+        - [описать]
+
+        Преимущества работы с DOM.
+
+        ! Сделать UX-диаграммы взаимодействия пользователя с медиаконтентом. (спросить у Колесовой-Жур)
+
+        -->
+        <!-- <video id="myasnikova" src="https://www.youtube.com/embed/0_5XW640n1c" controlslist="nodownload" crossorigin="use-credentials" ></video> -->
+      </a-assets>
+
+      <!-- 360-градусное панорамное видео. -->
+       <a-videosphere id="video-360" src="#mulavina" rotation="0 90 0"></a-videosphere>
+
+      <!-- Ссылки на панорамные видеоролики. -->
+      <a-entity id="links" layout="type: line; margin: 1.5" position="0 -1 -4">
+        <a-entity template="src: #link" data-src="#myasnikova" data-thumb="#myasnikova-img"></a-entity>
+        <a-entity template="src: #link" data-src="#mulavina" data-thumb="#mulavina-img"></a-entity>
+      </a-entity>
+
+      <!-- Камера + курсор. -->
+      <a-entity camera look-controls>
+        <a-cursor id="cursor"
+          animation__click="property: scale; startEvents: click; from: 0.1 0.1 0.1; to: 1 1 1; dur: 150"
+          animation__fusing="property: fusing; startEvents: fusing; from: 1 1 1; to: 0.1 0.1 0.1; dur: 1500"
+          event-set__1="_event: mouseenter; color: red"
+          event-set__2="_event: mouseleave; color: black"
+          fuse="true"
+          raycaster="objects: .link"></a-cursor>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
